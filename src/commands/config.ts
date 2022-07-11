@@ -42,7 +42,6 @@ const Config: Command = {
     let interval;
     if (interaction.options.get('frequency')?.value) {
       interval = intervalInfo[intervalInfo.length - (interaction.options.get('frequency')?.value as number)];
-      console.log(intervalInfo.length - (interaction.options.get('frequency')?.value as number), interval);
     } else {
       interval = undefined;
     }

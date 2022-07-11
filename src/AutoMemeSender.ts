@@ -17,12 +17,9 @@ export const intervalInfo:number[] = [
 ];
 
 const initInterval = (client:Client, interval:number) => {
-  console.log('Setting timer for interval:', interval);
   setInterval(async () => {
-    console.log('Fired for interval:', interval);
     const memes:MemeData = await getMemes(10);
     filterByInterval(interval).forEach((_guild) => {
-      console.log('Sending memes to guild:', _guild.guildId, 'and channel:', _guild.memeChannelId);
       if (!_guild.memeChannelId) return;
       const channel:TextChannel = client.channels.cache.get(_guild.memeChannelId) as TextChannel;
       const memesForThisGuild:MemeData = {

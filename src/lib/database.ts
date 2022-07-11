@@ -7,8 +7,6 @@ let database!:Mongoose;
 const initDatabase = async () => {
   assert(process.env.MONGO_URI);
   database = await mongoose.connect(process.env.MONGO_URI);
-  console.log(database.connection.readyState);
-  // database.connection.useDb('vela-memer');
 };
 
 const collection = () => database.connection.useDb('vela-memer').collection('guilds');
@@ -32,7 +30,6 @@ const updateGuild = async (guildId:string, data:DBGuild) => {
   if (data.memeChannelId) filteredData.memeChannelId = data.memeChannelId;
   if (data.interval) filteredData.interval = data.interval;
   if (data.memeCount) filteredData.memeCount = data.memeCount;
-  console.log('Updated data in guild:', guildId, 'new content:', filteredData);
   await collection().updateOne({ guildId }, {
     $set: filteredData,
   });
