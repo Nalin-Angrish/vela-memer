@@ -20,11 +20,8 @@ const initInterval = (client:Client, interval:number) => {
   console.log('Setting timer for interval:', interval);
   setInterval(async () => {
     console.log('Fired for interval:', interval);
-    const guilds = filterByInterval(interval);
-    if ((await guilds.toArray()).length === 0) return;
-    // we don't make unnecessary api requests now...
     const memes:MemeData = await getMemes(10);
-    guilds.forEach((_guild) => {
+    filterByInterval(interval).forEach((_guild) => {
       console.log('Sending memes to guild:', _guild.guildId, 'and channel:', _guild.memeChannelId);
       if (!_guild.memeChannelId) return;
       const channel:TextChannel = client.channels.cache.get(_guild.memeChannelId) as TextChannel;
