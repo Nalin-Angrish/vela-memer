@@ -24,11 +24,11 @@ export default (client:Client) : void => {
   /* eslint consistent-return: "off" */
   client.on('guildCreate', async (guild:Guild) => {
     const channel:GuildBasedChannel | undefined = guild.channels.cache.find(channelFilter(guild));
-    if (channel === undefined) return console.error('This server has no available text channel');
-    if (channel.isText()) {
+    if (channel === undefined) console.error('This server has no available text channel');
+    if (channel !== undefined && channel.isText()) {
       // it always is a text channel, but the linter needs it so fine...
       await channel.send({ embeds: [message] });
     }
-    addGuild(guild.id, channel.id);
+    addGuild(guild.id, channel?.id);
   });
 };

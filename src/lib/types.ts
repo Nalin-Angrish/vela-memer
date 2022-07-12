@@ -24,7 +24,7 @@ export interface MemeData {
 }
 
 export interface DBGuild {
-  id?:string
+  guildId?:string
   memeChannelId?:string
   interval?:number
   memeCount?:number

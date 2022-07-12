@@ -1,4 +1,4 @@
-import { Client, TextChannel } from 'discord.js';
+import { Client, DiscordAPIError, TextChannel } from 'discord.js';
 import { filterByInterval } from './lib/database';
 import { getMemes, sendMemes } from './lib/meme';
 import { MemeData } from './lib/types';
@@ -26,7 +26,7 @@ const initInterval = (client:Client, interval:number) => {
         count: _guild.memeCount || 10,
         memes: memes.memes.slice(0, _guild.memeCount || 10),
       };
-      sendMemes(memesForThisGuild, channel);
+      sendMemes(memesForThisGuild, channel).catch((e:DiscordAPIError) => { console.error(e); });
     });
   }, interval * 1000);
 };

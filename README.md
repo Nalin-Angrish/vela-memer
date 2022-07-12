@@ -2,7 +2,7 @@
 Need memes? Just add me in your server. I'm free and have an unlimited meme supply!
 
 ## Invite
-To invite the bot to your server, click [here](https://discord.com/api/oauth2/authorize?client_id=994950920163049502&permissions=0&scope=applications.commands%20bot). The bot does not have any official server, but you can join [this](https://dsc.gg/summersun) server or chat me personally if you have any queries. 
+To invite the bot to your server, click [here](https://discord.com/api/oauth2/authorize?client_id=994950920163049502&permissions=18432&scope=applications.commands%20bot). The bot does not have any official server, but you can join [this](https://dsc.gg/summersun) server or chat me personally if you have any queries. 
 
 ## Setting up
 To get the code running, follow the given steps:

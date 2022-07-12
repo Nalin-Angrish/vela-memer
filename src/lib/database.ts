@@ -11,14 +11,14 @@ const initDatabase = async () => {
 
 const collection = () => database.connection.useDb('vela-memer').collection('guilds');
 
-const addGuild = async (guildId:string, defaultChannelId:string) => {
-  await collection().insertOne({
+const addGuild = async (guildId:string, defaultChannelId?:string) => {
+  const guildData:DBGuild = {
     guildId,
-    // these are default options, and can be updated by the admin(s) of the guilds
-    memeChannelId: defaultChannelId,
     interval: 60 * 30,
     memeCount: 5,
-  });
+  };
+  if (defaultChannelId !== undefined) guildData.memeChannelId = defaultChannelId;
+  await collection().insertOne(guildData);
 };
 
 const deleteGuild = async (guildId:string) => {
