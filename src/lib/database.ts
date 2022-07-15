@@ -26,6 +26,9 @@ const deleteGuild = async (guildId:string) => {
 };
 
 const updateGuild = async (guildId:string, data:DBGuild) => {
+  if ((await collection().findOne({ guildId })) === undefined) {
+    await addGuild(guildId);
+  }
   const filteredData:DBGuild = {};
   if (data.memeChannelId) filteredData.memeChannelId = data.memeChannelId;
   if (data.interval) filteredData.interval = data.interval;

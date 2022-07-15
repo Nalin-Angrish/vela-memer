@@ -29,6 +29,6 @@ export default (client:Client) : void => {
       // it always is a text channel, but the linter needs it so fine...
       await channel.send({ embeds: [message] });
     }
-    addGuild(guild.id, channel?.id);
+    await addGuild(guild.id, channel?.id);
   });
 };
