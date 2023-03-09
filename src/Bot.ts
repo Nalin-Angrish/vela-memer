@@ -1,6 +1,6 @@
-import { Client, Intents } from 'discord.js';
-
 import { config } from 'dotenv';
+
+import { Client, Intents } from 'discord.js';
 
 import bot_joined from './listeners/bot_joined';
 import bot_leave from './listeners/bot_leave';
@@ -9,7 +9,6 @@ import ready from './listeners/ready';
 
 import initAutoMemeSender from './AutoMemeSender';
 import { initDatabase } from './lib/database';
-
 // setup environment variables for development.
 // on production, the variables are provided by
 // the kubernetes configuration.

@@ -16,6 +16,6 @@ To get the code running, follow the given steps:
 4. Setup environment variables using a `.env` file. The file should contain the following variables:
   - BOT_TOKEN: The token used by the discord bot (can be obtained from the discord developer dashboard).
   - CLIENTID: The client id (can be obtained from the discord developer dashboard).
-  - MONGO_URI: The URI to connect to your mongodb instance.
+  - PG_URI: The URI to connect to your postgresql instance.
 5. Run `npm run dev-cmd` / `yarn dev-cmd` to register application commands. Run `npm run dev` / `yarn dev` to run the bot in development mode.
 6. Run `npm run build` / `yarn build` to compile all typescript code into js, and run `npm run start` / `yarn start` to register all new commands and start the bot.

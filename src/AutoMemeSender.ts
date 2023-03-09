@@ -19,12 +19,12 @@ export const intervalInfo:number[] = [
 const initInterval = (client:Client, interval:number) => {
   setInterval(async () => {
     const memes:MemeData = await getMemes(10);
-    filterByInterval(interval).forEach((_guild) => {
-      if (!_guild.memeChannelId) return;
-      const channel:TextChannel = client.channels.cache.get(_guild.memeChannelId) as TextChannel;
+    (await filterByInterval(interval)).forEach((_guild) => {
+      if (!_guild.memechannelid) return;
+      const channel:TextChannel = client.channels.cache.get(_guild.memechannelid) as TextChannel;
       const memesForThisGuild:MemeData = {
-        count: _guild.memeCount || 10,
-        memes: memes.memes.slice(0, _guild.memeCount || 10),
+        count: _guild.memecount || 10,
+        memes: memes.memes.slice(0, _guild.memecount || 10),
       };
       sendMemes(memesForThisGuild, channel).catch((e:DiscordAPIError) => { console.error(e); });
     });
