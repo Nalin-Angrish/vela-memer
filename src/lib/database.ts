@@ -14,31 +14,48 @@ const addGuild = async (guildId:string, defaultChannelId?:string) => {
     memeCount: 5,
   };
   if (defaultChannelId !== undefined) guildData.memeChannelId = defaultChannelId;
-  await database.query(
-    'INSERT INTO Guilds(guildId, interval, memeCount, memeChannelId) VALUES ($1, $2, $3, $4)',
-    [guildData.guildId, guildData.interval, guildData.memeCount, guildData.memeChannelId],
-  );
+  try{
+    await database.query(
+      'INSERT INTO Guilds(guildId, interval, memeCount, memeChannelId) VALUES ($1, $2, $3, $4)',
+      [guildData.guildId, guildData.interval, guildData.memeCount, guildData.memeChannelId],
+    );
+  }catch(e){
+    console.log(e);
+  }
 };
 
 const deleteGuild = async (guildId:string) => {
-  await database.query('DELETE FROM Guilds WHERE guildId = $1', [guildId]);
+  try{
+    await database.query('DELETE FROM Guilds WHERE guildId = $1', [guildId]);
+  }catch(e){
+    console.log(e);
+  }
 };
 
 const updateGuild = async (guildId:string, data:DBGuild) => {
-  const rawData = await database.query('SELECT * FROM Guilds WHERE guildId = $1', [guildId]);
-  const newData = data;
-  if (!newData.memeChannelId) newData.memeChannelId = rawData.rows[0].memechannelid;
-  if (!newData.interval) newData.interval = rawData.rows[0].interval;
-  if (!newData.memeCount) newData.memeCount = rawData.rows[0].memecount;
-  await database.query(
-    'UPDATE Guilds SET interval = $2, memeCount = $3, memeChannelId = $4 WHERE guildId = $1',
-    [guildId, newData.interval, newData.memeCount, newData.memeChannelId],
-  );
+  try{
+    const rawData = await database.query('SELECT * FROM Guilds WHERE guildId = $1', [guildId]);
+    const newData = data;
+    if (!newData.memeChannelId) newData.memeChannelId = rawData.rows[0].memechannelid;
+    if (!newData.interval) newData.interval = rawData.rows[0].interval;
+    if (!newData.memeCount) newData.memeCount = rawData.rows[0].memecount;
+    await database.query(
+      'UPDATE Guilds SET interval = $2, memeCount = $3, memeChannelId = $4 WHERE guildId = $1',
+      [guildId, newData.interval, newData.memeCount, newData.memeChannelId],
+    );
+  }catch(e){
+    console.log(e);
+  }
 };
 
 const filterByInterval = async (interval:number) => {
-  const data = await database.query('SELECT * FROM Guilds WHERE interval = $1', [interval]);
-  return data.rows;
+  let data = {rows:[]};
+  try{
+    data = await database.query('SELECT * FROM Guilds WHERE interval = $1', [interval]);
+  }catch(e){
+    console.log(e);
+  }
+  return data.rows || {};
 };
 
 export {
