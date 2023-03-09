@@ -49,13 +49,7 @@ const updateGuild = async (guildId:string, data:DBGuild) => {
 };
 
 const filterByInterval = async (interval:number) => {
-  let data = {rows:[]};
-  try{
-    data = await database.query('SELECT * FROM Guilds WHERE interval = $1', [interval]);
-  }catch(e){
-    console.log(e);
-  }
-  return data.rows || {};
+  return (await database.query('SELECT * FROM Guilds WHERE interval = $1', [interval])).rows;
 };
 
 export {
