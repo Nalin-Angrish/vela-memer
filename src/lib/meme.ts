@@ -13,9 +13,9 @@ export const sendMemes = async (memeData:MemeData, channel:TextChannel) => {
   const memeEmbeds:MessageEmbed[] = memeData.memes.map((meme:t_Meme):MessageEmbed => new MessageEmbed({
     title: meme.title,
     image: {
-      url: meme.preview[meme.preview.length - 1],
+      url: meme.url
+      // url: meme.preview[meme.preview.length - 1],
     },
   }));
-  // the last preview url is the highest definition
   await channel.send({ embeds: memeEmbeds });
 };

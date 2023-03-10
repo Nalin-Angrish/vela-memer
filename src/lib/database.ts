@@ -1,9 +1,10 @@
 import { Client } from 'pg';
 import { DBGuild } from './types';
 
-const database:Client = new Client({ connectionString: process.env.PG_URI });
+var database!:Client;
 
 const initDatabase = async () => {
+  database = new Client({ connectionString: process.env.PG_URI });
   await database.connect();
 };
 
