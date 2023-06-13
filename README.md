@@ -1,3 +1,4 @@
+> This is a rewrite of the bot and is not complete and stable as of now (13th June, 2023). It is recommended that you add the bot to your servers after it has reached a stable state which should happen by 18th June, 2023. The previous version was made using Typescript and had a lot of bugs and insecure/outdated libraries and thus, this step was taken to rewrite the bot in a different language which could make the development process easier.
 # Vela Memer
 Need memes? Just add me in your server. I'm free and have an unlimited meme supply!
 
