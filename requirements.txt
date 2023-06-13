@@ -1,0 +1,4 @@
+python-dotenv
+discord.py
+requests
+SQLAlchemy
