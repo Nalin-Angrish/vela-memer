@@ -3,7 +3,9 @@ Vela Memer - Python rewrite
 """
 import os
 from discord import Client, Intents
+from sqlalchemy import create_engine
 from . import test, commands
+from .lib import Base
 
 
 def run_main() -> None:
@@ -13,6 +15,9 @@ def run_main() -> None:
     :return: None
     """
     bot = Client(intents=Intents.default())
+    engine = create_engine(os.environ["DB_URI"])
+    Base.metadata.create_all(engine)
+    Base.engine = engine
 
     @bot.event
     async def on_ready():
