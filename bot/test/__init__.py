@@ -2,7 +2,8 @@
 Tests for ensuring all features work properly for the smooth functioning of the bot later on
 """
 from . import meme
-tests = [meme]
+from . import database
+tests = [meme, database]
 
 def run_all_tests() -> None:
     """
