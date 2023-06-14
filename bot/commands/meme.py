@@ -22,9 +22,13 @@ class MemeCommand:
         :param int quantity: The number of memes to send
         """
         if quantity < 1:
-            await interaction.response.send_message(f"{quantity} memes? What exactly do you want me to do lol?")
+            await interaction.response.send_message(
+                f"{quantity} memes? What exactly do you want me to do lol?"
+            )
         elif quantity > 10:
-            await interaction.response.send_message(f"{quantity} memes is just too much bruh.")
+            await interaction.response.send_message(
+                f"{quantity} memes is just too much bruh."
+            )
         elif isinstance(interaction.channel, Messageable):
             await interaction.response.send_message(
                 f"Sending you {str(quantity)} memes now!"

@@ -51,10 +51,7 @@ class Guild(Base):
             session.commit()
 
     @staticmethod
-    def new(
-        guild_id: int,
-        meme_channel: Union[TextChannel, None] = None,
-    ) -> None:
+    def new(guild_id: int, meme_channel: Union[TextChannel, None] = None) -> None:
         """
         Add new Guild to database
         """
@@ -66,4 +63,15 @@ class Guild(Base):
                 guild.meme_channel_id = str(meme_channel.id)
             guild.freqency = 5
             guild.meme_count = 5
+            session.commit()
+
+    @staticmethod
+    def remove(guild_id: int) -> None:
+        """
+        Remove Guild from database
+        """
+        with Session(Base.engine) as session:
+            guild = session.get(Guild, str(guild_id))
+            if guild is not None:
+                session.delete(guild)
             session.commit()

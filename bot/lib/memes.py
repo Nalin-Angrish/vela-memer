@@ -39,21 +39,23 @@ class Meme:
         """
         data = get(f"https://meme-api.com/gimme/{amount}", timeout=10).json()
         if data.get("memes") is None:
-            if data.get("code") == 403: # Subreddit/Post is locked/hidden
-                return Meme.get_memes(amount)   # Send some other memes
+            if data.get("code") == 403:  # Subreddit/Post is locked/hidden
+                return Meme.get_memes(amount)  # Send some other memes
             else:
-                data["memes"] = [{
-                    "title": "Some unexpected error occured!",
-                    "postLink": "https://youtu.be/dQw4w9WgXcQ",
-                    "url": "https://cataas.com/cat/says/Sorry%20friend%20:("
-                }]
+                data["memes"] = [
+                    {
+                        "title": "Some unexpected error occured!",
+                        "postLink": "https://youtu.be/dQw4w9WgXcQ",
+                        "url": "https://cataas.com/cat/says/Sorry%20friend%20:(",
+                    }
+                ]
 
         memes = []
         for meme in data["memes"]:
             memes.append(Meme(meme["title"], meme["url"], meme["postLink"]))
         return memes
 
-    async def send_to(self, channel:Messageable) -> None:
+    async def send_to(self, channel: Messageable) -> None:
         """
         Helper function to send the meme instance to the specified discord channel
 

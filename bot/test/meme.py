@@ -3,9 +3,10 @@ A Test to check if memes are being properly obtained by the library helper class
 """
 from ..lib import Meme
 
+
 def run_test() -> bool:
     """
-    A Test to check if memes are being properly obtained by the library helper classes and functions.
+    A Test to check if memes are being properly obtained by the library helper classes and functions
 
     :return: Test passed or not
     :rtype: bool
