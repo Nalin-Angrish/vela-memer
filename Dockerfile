@@ -1,5 +1,5 @@
 FROM python:3.9-slim
-RUN pip install --upgrade pip && apt update && apt install python3-dev libpq-dev -y
+RUN pip install --upgrade pip && apt update && apt install build-essential python3-dev libpq-dev -y
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 COPY . .
