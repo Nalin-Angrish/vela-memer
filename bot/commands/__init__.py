@@ -21,12 +21,12 @@ async def register_handlers(bot: Client):
 
     @command_tree.command(name=HelpCommand.name, description=HelpCommand.description)
     async def help_command(interaction:Interaction):
-        await interaction.response.defer()
+        await interaction.response.send_message("‎")
         await HelpCommand.main(interaction)
 
     @command_tree.command(name=MemeCommand.name, description=MemeCommand.description)
     async def meme_command(interaction:Interaction, quantity: Union[int, None] = 1):
-        await interaction.response.defer()
+        await interaction.response.send_message("‎")
         await MemeCommand.main(interaction, quantity=quantity)
 
     @command_tree.command(
@@ -38,7 +38,7 @@ async def register_handlers(bot: Client):
         frequency: Union[int, None] = None,
         num_memes: Union[int, None] = None
     ):
-        await interaction.response.defer()
+        await interaction.response.send_message("‎")
         await ConfigCommand.main(
             interaction,
             channel=channel,
