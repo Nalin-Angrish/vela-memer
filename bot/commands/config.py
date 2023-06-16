@@ -30,13 +30,13 @@ class ConfigCommand:
         :param int num_memes: How many memes to send in one go
         """
         if interaction.guild_id is None:
-            await interaction.response.send_message(
+            await interaction.followup.send(
                 "Cannot do this in DMs, try doing it in a Discord server"
             )
         elif not interaction.permissions.manage_guild:
-            await interaction.response.send_message(
+            await interaction.followup.send(
                 "C'mon bruh how could you even think you were allowed to do this?"
             )
         else:
             Guild.update(interaction.guild_id, channel, frequency, num_memes)
-            await interaction.response.send_message("The settings have been updated!")
+            await interaction.followup.send("The settings have been updated!")

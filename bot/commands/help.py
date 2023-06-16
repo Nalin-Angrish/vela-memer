@@ -49,4 +49,4 @@ class HelpCommand:
             value="The number of memes you want the bot to send after every interval. \
           It should be a number between 1 and 10",
         )
-        await interaction.response.send_message(embeds=[help_message, config_help])
+        await interaction.followup.send(embeds=[help_message, config_help])
