@@ -1,6 +1,7 @@
 """
 Slash commands for the bot
 """
+import logging
 from typing import Union
 from discord import Client, TextChannel, Interaction
 from discord.app_commands import CommandTree
@@ -43,3 +44,7 @@ async def register_handlers(bot: Client):
         )
 
     await command_tree.sync()
+    cmds = command_tree.get_commands()
+    logger = logging.getLogger("discord.client")
+    for cmd in cmds:
+        logger.info(f"Command '{cmd.name}' initialized...")
