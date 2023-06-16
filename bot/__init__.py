@@ -4,7 +4,7 @@ Vela Memer - Python rewrite
 import os
 import logging
 from discord import Client, Intents, Guild, Embed
-from sqlalchemy import create_engine
+from sqlalchemy.ext.asyncio import create_async_engine
 from . import test, commands
 from .lib import Base, Guild as DBGuild, MemeScheduler
 
@@ -14,8 +14,8 @@ def run_main():
     Run the bot
     """
     bot = Client(intents=Intents.default())
-    engine = create_engine(os.environ["DB_URI"])
-    Base.metadata.create_all(engine)
+    engine = create_async_engine(os.environ["DB_URI"])
+    # Base.metadata.create_all(engine)
     Base.engine = engine
     command_tree = commands.register_handlers(bot)
     MemeScheduler.setup(bot, engine)
@@ -53,7 +53,7 @@ def run_main():
                         To know more about those commands and me, run `/help`",
                 )
             )
-        DBGuild.new(guild.id, main_channel)
+        await DBGuild.new(guild.id, main_channel)
         logger.info(guild.id, "Added")
 
     @bot.event
@@ -64,7 +64,7 @@ def run_main():
 
         :param Guild guild: The just leaved guild
         """
-        DBGuild.remove(guild.id)
+        await DBGuild.remove(guild.id)
         logger.info(guild.id, "Removed")
 
     token = os.getenv("BOT_TOKEN")
@@ -78,8 +78,8 @@ def run_main():
             logger.error(error)
 
 
-def run_tests():
+async def run_tests():
     """
     Run tests to ensure everything works properly
     """
-    test.run_all_tests()
+    await test.run_all_tests()

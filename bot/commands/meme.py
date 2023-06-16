@@ -34,7 +34,7 @@ class MemeCommand:
             await interaction.followup.send(
                 f"Sending you {str(quantity)} memes now!"
             )
-            memes = Meme.get_memes(quantity)
+            memes = await Meme.get_memes(quantity)
             for meme in memes:
                 await meme.send_to(interaction.channel)
         else:

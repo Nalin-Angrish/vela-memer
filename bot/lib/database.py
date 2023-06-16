@@ -3,16 +3,17 @@ Helper functions for interacting with the database
 """
 from typing import Union
 from discord import TextChannel
-from sqlalchemy import Integer, String, Engine, select
-from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column
+from sqlalchemy import Integer, String, select
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy.ext.asyncio import AsyncEngine, AsyncAttrs, async_sessionmaker
 
 
-class Base(DeclarativeBase):
+class Base(AsyncAttrs, DeclarativeBase):
     """
     A Base class for database models
     """
 
-    engine: Union[Engine, None] = None
+    engine: Union[AsyncEngine, None] = None
     """ The database engine to use """
 
 
@@ -32,7 +33,7 @@ class Guild(Base):
     """ The number of memes to be sent in one go """
 
     @staticmethod
-    def update(
+    async def update(
         guild_id: int,
         meme_channel: Union[TextChannel, None] = None,
         frequency: Union[int, None] = None,
@@ -46,8 +47,8 @@ class Guild(Base):
         :param Optional[int] frequency: The frequency with which memes are to be sent
         :param Optional[int] num_memes: The number of memes to be sent in one go
         """
-        with Session(Base.engine) as session:
-            guild = session.get(Guild, str(guild_id))
+        async with async_sessionmaker(Base.engine)() as session:
+            guild = await session.get(Guild, str(guild_id))
             if guild is None:
                 guild = Guild()
                 guild.guild_id = str(guild_id)
@@ -58,17 +59,17 @@ class Guild(Base):
                 guild.frequency = frequency
             if num_memes is not None and num_memes <= 10 and num_memes > 0:
                 guild.meme_count = num_memes
-            session.commit()
+            await session.commit()
 
     @staticmethod
-    def new(guild_id: int, meme_channel: Union[TextChannel, None] = None):
+    async def new(guild_id: int, meme_channel: Union[TextChannel, None] = None):
         """
         Add new Guild to database
 
         :param int guild_id: The ID of the guild
         :param Optional[TextChannel] meme_channel: The ID of the channel to which memes are to be sent
         """
-        with Session(Base.engine) as session:
+        async with async_sessionmaker(Base.engine)() as session:
             guild = Guild()
             guild.guild_id = str(guild_id)
             session.add(guild)
@@ -76,23 +77,23 @@ class Guild(Base):
                 guild.meme_channel_id = str(meme_channel.id)
             guild.frequency = 5
             guild.meme_count = 5
-            session.commit()
+            await session.commit()
 
     @staticmethod
-    def remove(guild_id: int):
+    async def remove(guild_id: int):
         """
         Remove Guild from database
 
         :param int guild_id: The ID of the guild
         """
-        with Session(Base.engine) as session:
-            guild = session.get(Guild, str(guild_id))
+        async with async_sessionmaker(Base.engine)() as session:
+            guild = await session.get(Guild, str(guild_id))
             if guild is not None:
-                session.delete(guild)
-            session.commit()
+                await session.delete(guild)
+            await session.commit()
 
     @staticmethod
-    def get_guilds_with_frequency(frequency: int) -> list["Guild"]:
+    async def get_guilds_with_frequency(frequency: int):
         """
         Get guilds with the configured frequency
 
@@ -100,7 +101,8 @@ class Guild(Base):
         :return: Guilds with the given frequency
         :rtype: list[Guild]
         """
-        with Session(Base.engine) as session:
+        async with async_sessionmaker(Base.engine)() as session:
             stmt = select(Guild).where(Guild.frequency == frequency)
-            guilds: list[Guild] = session.scalars(stmt).all()
+            result = await session.execute(stmt)
+            guilds: list[Guild] = result.scalars().all()
         return guilds

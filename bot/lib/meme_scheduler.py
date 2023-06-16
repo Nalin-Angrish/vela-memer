@@ -53,10 +53,10 @@ class MemeScheduler:
 
         :param int frequency: The frequency of the channels to send the memes in
         """
-        guilds: list[Guild] = Guild.get_guilds_with_frequency(frequency)
+        guilds: list[Guild] = await Guild.get_guilds_with_frequency(frequency)
         if len(guilds) == 0:
             return
-        memes: list[Meme] = Meme.get_memes(10)
+        memes: list[Meme] = await Meme.get_memes(10)
         MemeScheduler._logger.info(f"Sending memes to {len(guilds)} channels with frequency {frequency}")
 
         for guild in guilds:

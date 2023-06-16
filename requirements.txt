@@ -1,5 +1,9 @@
 python-dotenv
 discord.py
-requests
+grequests
 SQLAlchemy
+
+# For postgresql
 psycopg2
+# For sqlite
+aiosqlite

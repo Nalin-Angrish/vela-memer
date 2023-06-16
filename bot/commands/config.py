@@ -38,5 +38,5 @@ class ConfigCommand:
                 "C'mon bruh how could you even think you were allowed to do this?"
             )
         else:
-            Guild.update(interaction.guild_id, channel, frequency, num_memes)
             await interaction.followup.send("The settings have been updated!")
+            await Guild.update(interaction.guild_id, channel, frequency, num_memes)

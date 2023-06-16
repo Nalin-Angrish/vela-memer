@@ -6,7 +6,7 @@ from sqlalchemy import create_engine
 from ..lib import Base, Guild
 
 
-def run_test() -> bool:
+async def run_test() -> bool:
     """
     A Test to check if  helper classes and functions for database interaction are properly working.
 
@@ -19,9 +19,9 @@ def run_test() -> bool:
         engine = create_engine("sqlite:///test.db")
         Base.metadata.create_all(engine)
         Base.engine = engine
-        Guild.new(1234)
-        Guild.update(1234, frequency=10)
-        Guild.remove(1234)
+        await Guild.new(1234)
+        await Guild.update(1234, frequency=10)
+        await Guild.remove(1234)
         return True
     except Exception as error:  # pylint: disable=broad-exception-caught
         print(error)
