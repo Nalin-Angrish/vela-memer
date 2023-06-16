@@ -25,7 +25,7 @@ async def register_handlers(bot: Client):
         await HelpCommand.main(interaction)
 
     @command_tree.command(name=MemeCommand.name, description=MemeCommand.description)
-    async def meme_command(interaction:Interaction, quantity: int):
+    async def meme_command(interaction:Interaction, quantity: Union[int, None] = 1):
         await interaction.response.defer()
         await MemeCommand.main(interaction, quantity=quantity)
 

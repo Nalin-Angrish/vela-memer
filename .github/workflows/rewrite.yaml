@@ -1,4 +1,4 @@
-name: Publish the rewrited application's container to Docker Hub for deploying to kubernetes. Primary use is to ensure that there are no errors in builds.
+name: Publish the rewrited application's container to Docker Hub for deploying to kubernetes.
 
 on:
   push:

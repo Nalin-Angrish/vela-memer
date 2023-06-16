@@ -1,8 +1,8 @@
-name: Publish the application's container to Docker Hub for deploying to kubernetes
+name: Build the application's container to ensure there are no configuration errors
 
 on:
   push:
-    branches: [ main ]
+    branches: [ dev ]
 
 jobs:
   build:
@@ -41,7 +41,7 @@ jobs:
           file: ./Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
-          tags: nalinangrish/vela-memer:latest
+          tags: nalinangrish/vela-memer:dev
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
       -

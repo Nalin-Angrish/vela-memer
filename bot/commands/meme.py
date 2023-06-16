@@ -1,6 +1,7 @@
 """
 Slash commands for the bot - The `meme` command
 """
+from typing import Union
 from discord import Interaction
 from discord.abc import Messageable
 from ..lib.memes import Meme
@@ -15,7 +16,7 @@ class MemeCommand:
     description = "An endless supply of memes."
 
     @staticmethod
-    async def main(interaction: Interaction, *args, quantity: int = 1):
+    async def main(interaction: Interaction, *args, quantity: Union[int, None] = 1):
         """
         The `meme` command
 
