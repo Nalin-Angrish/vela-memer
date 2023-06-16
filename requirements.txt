@@ -4,6 +4,6 @@ grequests
 SQLAlchemy
 
 # For postgresql
-psycopg2
+asyncpg
 # For sqlite
 aiosqlite
