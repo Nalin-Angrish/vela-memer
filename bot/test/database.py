@@ -23,6 +23,6 @@ def run_test() -> bool:
         Guild.update(1234, frequency=10)
         Guild.remove(1234)
         return True
-    except Exception as e:
-        print(e)
+    except Exception as error:  # pylint: disable=broad-exception-caught
+        print(error)
         return False

@@ -5,19 +5,18 @@ import os
 from discord import Client, Intents, Guild, Embed
 from sqlalchemy import create_engine
 from . import test, commands
-from .lib import Base, Guild as DBGuild
+from .lib import Base, Guild as DBGuild, MemeScheduler
 
 
-def run_main() -> None:
+def run_main():
     """
     Run the bot
-
-    :return: None
     """
     bot = Client(intents=Intents.default())
     engine = create_engine(os.environ["DB_URI"])
     Base.metadata.create_all(engine)
     Base.engine = engine
+    MemeScheduler.setup(bot, engine)
 
     @bot.event
     async def on_ready():
@@ -26,13 +25,16 @@ def run_main() -> None:
         application commands and inform the standard output
         """
         await commands.register_handlers(bot)
-        print("Ready!")
+        await MemeScheduler.start()
+        print("Bot is ready!")
 
     @bot.event
     async def on_guild_join(guild: Guild):
         """
         When the bot joins a new guild, add the guild to the
         database and send a greeting message
+
+        :param Guild guild: The newly joined guild
         """
         main_channel = None
         for channel in guild.text_channels:
@@ -53,18 +55,29 @@ def run_main() -> None:
 
     @bot.event
     async def on_guild_remove(guild: Guild):
+        """
+        When the bot is removed from a guild,
+        delete the guild from the database
+
+        :param Guild guild: The just leaved guild
+        """
         DBGuild.remove(guild.id)
         print(guild.id, "Removed")
 
     token = os.getenv("BOT_TOKEN")
     if token is not None:
-        bot.run(token)  # type: ignore
+        try:
+            bot.run(token)
+        except KeyboardInterrupt:
+            print("Shutting down manually...")
+        except Exception as error:  # pylint: disable=broad-exception-caught
+            print("Shutting down accidently...")
+            print(error)
+            print(error.with_traceback())
 
 
-def run_tests() -> None:
+def run_tests():
     """
     Run tests to ensure everything works properly
-
-    :return: None
     """
     test.run_all_tests()

@@ -9,12 +9,11 @@ from .config import ConfigCommand
 from .meme import MemeCommand
 
 
-async def register_handlers(bot: Client) -> None:
+async def register_handlers(bot: Client):
     """
     Register slash command handlers for the bot
 
     :param Client bot: The bot to register all commands to
-    :return: None
     """
     command_tree = CommandTree(bot)
     help_command = command_tree.command(

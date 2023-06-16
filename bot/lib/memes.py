@@ -18,11 +18,13 @@ class Meme:
     url: str = ""
     """ Reddit URL of the meme """
 
-    def __init__(self, title, image, url) -> None:
+    def __init__(self, title: str, image: str, url: str):
         """
         An initializer to set up properties of the meme
 
-        :return: None
+        :param str title: Title/Caption of the meme
+        :param str image: Image URL of the meme
+        :param str url: Reddit URL of the meme
         """
         self.title = title
         self.image = image
@@ -39,7 +41,7 @@ class Meme:
         """
         data = get(f"https://meme-api.com/gimme/{amount}", timeout=10).json()
         if data.get("memes") is None:
-            if data.get("code") == 403:  # Subreddit/Post is locked/hidden
+            if data.get("code") == 403:  # Subreddit/Post is locked/hidden/inaccessible
                 return Meme.get_memes(amount)  # Send some other memes
             else:
                 data["memes"] = [
@@ -55,7 +57,7 @@ class Meme:
             memes.append(Meme(meme["title"], meme["url"], meme["postLink"]))
         return memes
 
-    async def send_to(self, channel: Messageable) -> None:
+    async def send_to(self, channel: Messageable):
         """
         Helper function to send the meme instance to the specified discord channel
 
