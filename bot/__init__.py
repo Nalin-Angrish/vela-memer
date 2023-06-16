@@ -17,6 +17,7 @@ def run_main():
     engine = create_engine(os.environ["DB_URI"])
     Base.metadata.create_all(engine)
     Base.engine = engine
+    command_tree = commands.register_handlers(bot)
     MemeScheduler.setup(bot, engine)
     logger = logging.getLogger('discord.client')
 
@@ -26,7 +27,7 @@ def run_main():
         When the client is ready, register handlers for all
         application commands and inform the standard output
         """
-        await commands.register_handlers(bot)
+        await command_tree.sync()
         await MemeScheduler.start()
         logger.info("Bot is ready!")
 
