@@ -26,7 +26,7 @@ class Guild(Base):
     """ The ID of the guild """
     meme_channel_id: Mapped[str] = mapped_column(String(), nullable=True)
     """ The ID of the channel to which memes are to be sent """
-    freqency: Mapped[int] = mapped_column(Integer(), nullable=True)
+    frequency: Mapped[int] = mapped_column(Integer(), nullable=True)
     """ The frequency with which memes are to be sent """
     meme_count: Mapped[int] = mapped_column(Integer(), nullable=True)
     """ The number of memes to be sent in one go """
@@ -55,7 +55,7 @@ class Guild(Base):
             if meme_channel is not None:
                 guild.meme_channel_id = str(meme_channel.id)
             if frequency is not None and frequency <= 10 and frequency > 0:
-                guild.freqency = frequency
+                guild.frequency = frequency
             if num_memes is not None and num_memes <= 10 and num_memes > 0:
                 guild.meme_count = num_memes
             session.commit()
@@ -74,7 +74,7 @@ class Guild(Base):
             session.add(guild)
             if meme_channel is not None:
                 guild.meme_channel_id = str(meme_channel.id)
-            guild.freqency = 5
+            guild.frequency = 5
             guild.meme_count = 5
             session.commit()
 
@@ -101,6 +101,6 @@ class Guild(Base):
         :rtype: list[Guild]
         """
         with Session(Base.engine) as session:
-            stmt = select(Guild).where(Guild.freqency == frequency)
+            stmt = select(Guild).where(Guild.frequency == frequency)
             guilds: list[Guild] = session.scalars(stmt).all()
         return guilds
