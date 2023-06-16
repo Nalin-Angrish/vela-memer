@@ -1,6 +1,7 @@
 """
 Helper functions for scheduling auto-memes
 """
+import logging
 from discord import Client
 from discord.ext import tasks
 from sqlalchemy import Engine
@@ -30,6 +31,7 @@ class MemeScheduler:
     """ The Discord client using which all memes should be sent """
     _engine: Engine = None
     """ The Database engine to get the guild data from """
+    _logger: logging.Logger = None
 
     @staticmethod
     def setup(client: Client, engine: Engine):
@@ -42,6 +44,7 @@ class MemeScheduler:
         """
         MemeScheduler._client = client
         MemeScheduler._engine = engine
+        MemeScheduler._logger = logging.getLogger("discord.client")
 
     @staticmethod
     async def send(frequency: int):
@@ -54,7 +57,7 @@ class MemeScheduler:
         if len(guilds) == 0:
             return
         memes: list[Meme] = Meme.get_memes(10)
-        print(f"Sending memes to {len(guilds)} channels with frequency", frequency)
+        MemeScheduler._logger.info(f"Sending memes to {len(guilds)} channels with frequency {frequency}")
 
         for guild in guilds:
             channel = MemeScheduler._client.get_channel(int(guild.meme_channel_id))
@@ -77,7 +80,7 @@ class MemeScheduler:
         _loop_8.start()
         _loop_9.start()
         _loop_10.start()
-        print("Started meme scheduler")
+        MemeScheduler._logger.info("Started meme scheduler")
 
 
 # pylint: disable=pointless-string-statement

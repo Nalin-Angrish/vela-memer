@@ -2,6 +2,7 @@
 Vela Memer - Python rewrite
 """
 import os
+import logging
 from discord import Client, Intents, Guild, Embed
 from sqlalchemy import create_engine
 from . import test, commands
@@ -17,6 +18,7 @@ def run_main():
     Base.metadata.create_all(engine)
     Base.engine = engine
     MemeScheduler.setup(bot, engine)
+    logger = logging.getLogger('discord.client')
 
     @bot.event
     async def on_ready():
@@ -26,7 +28,7 @@ def run_main():
         """
         await commands.register_handlers(bot)
         await MemeScheduler.start()
-        print("Bot is ready!")
+        logger.info("Bot is ready!")
 
     @bot.event
     async def on_guild_join(guild: Guild):
@@ -51,7 +53,7 @@ def run_main():
                 )
             )
         DBGuild.new(guild.id, main_channel)
-        print(guild.id, "Added")
+        logger.info(guild.id, "Added")
 
     @bot.event
     async def on_guild_remove(guild: Guild):
@@ -62,18 +64,17 @@ def run_main():
         :param Guild guild: The just leaved guild
         """
         DBGuild.remove(guild.id)
-        print(guild.id, "Removed")
+        logger.info(guild.id, "Removed")
 
     token = os.getenv("BOT_TOKEN")
     if token is not None:
         try:
             bot.run(token)
         except KeyboardInterrupt:
-            print("Shutting down manually...")
+            logger.info("Shutting down manually...")
         except Exception as error:  # pylint: disable=broad-exception-caught
-            print("Shutting down accidently...")
-            print(error)
-            print(error.with_traceback())
+            logger.error("Shutting down accidently...")
+            logger.error(error)
 
 
 def run_tests():
