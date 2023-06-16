@@ -17,7 +17,7 @@ class ConfigCommand:
     @staticmethod
     async def main(
         interaction: Interaction,
-        *,
+        *args,
         channel: Union[TextChannel, None] = None,
         frequency: Union[int, None] = None,
         num_memes: Union[int, None] = None

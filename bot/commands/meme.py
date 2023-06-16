@@ -15,7 +15,7 @@ class MemeCommand:
     description = "An endless supply of memes."
 
     @staticmethod
-    async def main(interaction: Interaction, *, quantity: int = 1):
+    async def main(interaction: Interaction, *args, quantity: int = 1):
         """
         The `meme` command
 
